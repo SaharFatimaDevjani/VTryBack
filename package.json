@@ -21,6 +21,8 @@
     "mongoose": "^8.14.2",
     "multer": "^2.0.1",
     "nodemailer": "^7.0.3",
-    "sharp": "^0.34.2"
+    "sharp": "^0.34.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.3"
   }
 }

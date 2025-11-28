@@ -28,3 +28,51 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 
 const User = mongoose.model("User", userSchema);
 export default User;
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *         first_name:
+ *           type: string
+ *         last_name:
+ *           type: string
+ *         dob:
+ *           type: string
+ *         gender:
+ *           type: string
+ *         email:
+ *           type: string
+ *         isAdmin:
+ *           type: boolean
+ *       required:
+ *         - first_name
+ *         - last_name
+ *         - dob
+ *         - gender
+ *         - email
+ *
+ *     AuthRequest:
+ *       type: object
+ *       properties:
+ *         email:
+ *           type: string
+ *         password:
+ *           type: string
+ *       required:
+ *         - email
+ *         - password
+ *
+ *     AuthResponse:
+ *       type: object
+ *       properties:
+ *         user:
+ *           $ref: '#/components/schemas/User'
+ *         token:
+ *           type: string
+ */

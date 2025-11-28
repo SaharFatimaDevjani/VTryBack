@@ -5,6 +5,8 @@ import connectDB from "./config/database.js";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./config/swagger.js";
 
 // Importing routes
 import authRoutes from "./routes/authRoutes.js";
@@ -20,25 +22,43 @@ const app = express();
 app.use(express.json());
 
 // CORS configuration - allow multiple origins
-const allowedOrigins = process.env.CORS_ORIGIN 
-  ? process.env.CORS_ORIGIN.split(',')
-  : ["http://localhost:3000", "http://localhost:5173", "http://localhost:5174", "http://localhost:5175"];
+const allowedOrigins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(",")
+  : [
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "http://localhost:5174",
+      "http://localhost:5175",
+    ];
 
-app.use(cors({ 
-  origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true 
-}));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 
 app.use("/uploads", express.static("uploads"));
+
+// Swagger UI
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// Serve a simple landing page from /public (shows link to /api-docs)
+app.use(express.static("public"));
+
+// Health endpoint used by the landing page
+app.get("/health", (req, res) => {
+  res.json({ status: "ok", uptime: process.uptime() });
+});
 
 // Routes
 app.use("/api/auth", authRoutes);
@@ -79,9 +99,7 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
   }
 });
 
-app.get("/", (req, res) => {
-  res.send("API is running...");
-});
+// Root is served by `public/index.html` (see `public/index.html`)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

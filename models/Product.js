@@ -18,3 +18,35 @@ const productSchema = new mongoose.Schema(
 
 const Product = mongoose.model("Product", productSchema);
 export default Product;
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Product:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *         title:
+ *           type: string
+ *         image:
+ *           type: string
+ *         description:
+ *           type: string
+ *         brand:
+ *           type: string
+ *         category:
+ *           type: string
+ *         price:
+ *           type: number
+ *         endDate:
+ *           type: string
+ *         endHour:
+ *           type: string
+ *         endMinute:
+ *           type: string
+ *       required:
+ *         - title
+ *         - price
+ */

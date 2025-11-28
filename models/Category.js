@@ -10,3 +10,20 @@ const categorySchema = new mongoose.Schema(
 
 const Category = mongoose.model("Category", categorySchema);
 export default Category;
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Category:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *         title:
+ *           type: string
+ *         description:
+ *           type: string
+ *       required:
+ *         - title
+ */
